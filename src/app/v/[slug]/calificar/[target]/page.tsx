@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MIEMBROS, avatarUrl } from "@/grupo/miembros";
+import { avatarUrl, miembroPorCodigo } from "@/grupo/miembros";
 import { CalificarCliente } from "./CalificarCliente";
 
 export async function generateMetadata({
@@ -8,11 +8,11 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; target: string }>;
 }): Promise<Metadata> {
-  const { slug, target } = await params;
-  const yo = MIEMBROS.find((m) => m.slug === slug);
-  const otro = MIEMBROS.find((m) => m.slug === target);
-  if (!yo || !otro || slug === target) return { title: "Calificar" };
-  const img = avatarUrl(target);
+  const { slug: codigoVotante, target: codigoEvaluado } = await params;
+  const yo = miembroPorCodigo(codigoVotante);
+  const otro = miembroPorCodigo(codigoEvaluado);
+  if (!yo || !otro || yo.slug === otro.slug) return { title: "Calificar" };
+  const img = avatarUrl(otro.slug);
   return {
     title: `Calificar a ${otro.nombre} · ${yo.nombre}`,
     description: `Barras 0–100 para ${otro.nombre}`,
@@ -33,14 +33,15 @@ export default async function CalificarPage({
 }: {
   params: Promise<{ slug: string; target: string }>;
 }) {
-  const { slug, target } = await params;
-  const yo = MIEMBROS.find((m) => m.slug === slug);
-  const otro = MIEMBROS.find((m) => m.slug === target);
-  if (!yo || !otro || slug === target) notFound();
+  const { slug: codigoVotante, target: codigoEvaluado } = await params;
+  const yo = miembroPorCodigo(codigoVotante);
+  const otro = miembroPorCodigo(codigoEvaluado);
+  if (!yo || !otro || yo.slug === otro.slug) notFound();
   return (
     <CalificarCliente
-      voterSlug={slug}
-      targetSlug={target}
+      voterCodigo={yo.codigo}
+      voterSlug={yo.slug}
+      targetSlug={otro.slug}
       otroNombre={otro.nombre}
     />
   );

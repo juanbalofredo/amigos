@@ -2,7 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MIEMBROS, avatarUrl, rutaVoto } from "@/grupo/miembros";
+import {
+  MIEMBROS,
+  avatarUrl,
+  clasesAvatarRecorte,
+  miembroPorCodigo,
+  rutaVotoPorCodigo,
+} from "@/grupo/miembros";
 import { listarObjetivosDeVotante } from "@/lib/votos-store";
 
 export async function generateMetadata({
@@ -10,10 +16,10 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const yo = MIEMBROS.find((m) => m.slug === slug);
+  const { slug: codigo } = await params;
+  const yo = miembroPorCodigo(codigo);
   if (!yo) return { title: "Votación" };
-  const img = avatarUrl(slug);
+  const img = avatarUrl(yo.slug);
   return {
     title: `${yo.nombre} · Votación`,
     description: `Calificaciones entre amigos · ${yo.nombre}`,
@@ -35,9 +41,10 @@ export default async function MesaPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-  const yo = MIEMBROS.find((m) => m.slug === slug);
+  const { slug: codigo } = await params;
+  const yo = miembroPorCodigo(codigo);
   if (!yo) notFound();
+  const slug = yo.slug;
   let hechos: string[] = [];
   let aviso: string | null = null;
   try {
@@ -59,7 +66,7 @@ export default async function MesaPage({
           alt=""
           width={96}
           height={96}
-          className="h-24 w-24 shrink-0 rounded-full bg-zinc-800 ring-2 ring-zinc-700"
+          className={`${clasesAvatarRecorte} h-24 w-24 shrink-0 rounded-full bg-zinc-800 ring-2 ring-zinc-700`}
           unoptimized
         />
         <div className="min-w-0 flex-1">
@@ -79,7 +86,7 @@ export default async function MesaPage({
       <ul className="flex flex-col gap-3">
         {otros.map((m) => {
           const listo = ya.has(m.slug);
-          const href = `${rutaVoto(slug)}/calificar/${m.slug}`;
+          const href = `${rutaVotoPorCodigo(yo.codigo)}/calificar/${m.codigo}`;
           if (listo) {
             return (
               <li
@@ -91,7 +98,7 @@ export default async function MesaPage({
                   alt=""
                   width={64}
                   height={64}
-                  className="h-16 w-16 shrink-0 rounded-full bg-zinc-800"
+                  className={`${clasesAvatarRecorte} h-16 w-16 shrink-0 rounded-full bg-zinc-800`}
                   unoptimized
                 />
                 <div className="flex min-w-0 flex-1 flex-col">
@@ -112,7 +119,7 @@ export default async function MesaPage({
                   alt=""
                   width={64}
                   height={64}
-                  className="h-16 w-16 shrink-0 rounded-full bg-zinc-800"
+                  className={`${clasesAvatarRecorte} h-16 w-16 shrink-0 rounded-full bg-zinc-800`}
                   unoptimized
                 />
                 <span className="font-medium">{m.nombre}</span>

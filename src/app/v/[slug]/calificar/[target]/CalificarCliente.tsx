@@ -5,15 +5,21 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { RASGOS } from "@/grupo/rasgos";
-import { avatarUrl } from "@/grupo/miembros";
+import {
+  avatarUrl,
+  clasesAvatarRecorte,
+  rutaVotoPorCodigo,
+} from "@/grupo/miembros";
 
 type Props = {
+  voterCodigo: string;
   voterSlug: string;
   targetSlug: string;
   otroNombre: string;
 };
 
 export function CalificarCliente({
+  voterCodigo,
   voterSlug,
   targetSlug,
   otroNombre,
@@ -52,7 +58,7 @@ export function CalificarCliente({
       setError(j.error ?? "No se pudo guardar");
       return;
     }
-    router.push(`/v/${voterSlug}`);
+    router.push(rutaVotoPorCodigo(voterCodigo));
     router.refresh();
   }
 
@@ -64,7 +70,7 @@ export function CalificarCliente({
           alt=""
           width={80}
           height={80}
-          className="h-20 w-20 shrink-0 rounded-full bg-zinc-800 ring-2 ring-zinc-700"
+          className={`${clasesAvatarRecorte} h-20 w-20 shrink-0 rounded-full bg-zinc-800 ring-2 ring-zinc-700`}
           unoptimized
         />
         <div>
@@ -131,7 +137,7 @@ export function CalificarCliente({
           {enviando ? "Guardando…" : "Guardar y volver"}
         </button>
         <Link
-          href={`/v/${voterSlug}`}
+          href={rutaVotoPorCodigo(voterCodigo)}
           className="rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm text-zinc-300 hover:border-zinc-500"
         >
           Cancelar
