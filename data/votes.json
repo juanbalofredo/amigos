@@ -1,0 +1,52 @@
+[
+  {
+    "voter_slug": "juan",
+    "target_slug": "pablo",
+    "scores": {
+      "gracia": 50,
+      "fisico": 50,
+      "confiabilidad": 50,
+      "enojo": 50,
+      "iq": 50,
+      "ingenio": 50,
+      "malhumor": 50,
+      "carisma": 50,
+      "lealtad": 50,
+      "familiero": 50,
+      "vestimenta": 50,
+      "estilo": 50,
+      "gay": 50,
+      "borracho": 50,
+      "chambeador": 50,
+      "steam": 50,
+      "aim_juegos": 50,
+      "iq_juegos": 50
+    },
+    "updated_at": "2026-05-04T22:20:04.343Z"
+  },
+  {
+    "voter_slug": "juan",
+    "target_slug": "cristian",
+    "scores": {
+      "gracia": 64,
+      "fisico": 37,
+      "confiabilidad": 87,
+      "enojo": 29,
+      "iq": 75,
+      "ingenio": 72,
+      "malhumor": 26,
+      "carisma": 91,
+      "lealtad": 94,
+      "familiero": 25,
+      "vestimenta": 34,
+      "estilo": 43,
+      "gay": 95,
+      "borracho": 100,
+      "chambeador": 88,
+      "steam": 45,
+      "aim_juegos": 60,
+      "iq_juegos": 80
+    },
+    "updated_at": "2026-05-04T22:32:24.748Z"
+  }
+]
